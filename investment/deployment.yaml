@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: finvibe
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: finvibe
+  template:
+    metadata:
+      labels:
+        app: finvibe
+    spec:
+      containers:
+        - name: finvibe
+          image: 51taek/finvibe:PLACEHOLDER
+          ports:
+            - containerPort: 8080
