@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: finvibe
-          image: 51taek/finvibe:eabf22f
+          image: 51taek/finvibe:e70be5c
           ports:
             - containerPort: 8080
