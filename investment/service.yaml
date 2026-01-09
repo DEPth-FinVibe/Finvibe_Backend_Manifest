@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: finvibe
+  name: investment
 spec:
   selector:
-    app: finvibe
+    app: investment
   ports:
     - port: 80
       targetPort: 8080

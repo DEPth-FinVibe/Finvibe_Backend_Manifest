@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: finvibe
+  name: investment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: finvibe
+      app: investment
   template:
     metadata:
       labels:
-        app: finvibe
+        app: investment
     spec:
       containers:
-        - name: finvibe
+        - name: investment
           image: 51taek/finvibe:5c156ba
           ports:
             - containerPort: 8080
