@@ -15,5 +15,29 @@ spec:
       containers:
         - name: investment
           image: 51taek/finvibe:df0fc93
+          env:
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: finvibe-app-secrets
+                  key: db-username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: finvibe-app-secrets
+                  key: db-password
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: finvibe-app-secrets
+                  key: redis-password
+
+            # [일반 설정]
+            - name: DB_URL
+              value: "jdbc:mariadb://mariadb-external:3306/finvibe"
+            - name: REDIS_HOST
+              value: "redis-external"
+            - name: KAFKA_BOOTSTRAP_SERVERS
+              value: "kafka-external:9092"
           ports:
             - containerPort: 8080
