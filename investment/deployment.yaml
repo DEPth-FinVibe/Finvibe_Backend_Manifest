@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: investment
-          image: 51taek/finvibe:ced7688
+          image: 51taek/finvibe:68ecb37
           ports:
             - containerPort: 8080
