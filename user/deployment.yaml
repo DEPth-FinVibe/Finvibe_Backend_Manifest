@@ -36,6 +36,16 @@ spec:
                 secretKeyRef:
                   name: finvibe-app-secrets
                   key: mongo-url
+            - name: GOOGLE_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: finvibe-app-secrets
+                  key: google-client-secret
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: finvibe-jwt-secret
+                  key: secret
 
             # [일반 설정]
             - name: DB_URL
@@ -44,5 +54,9 @@ spec:
               value: "redis-external"
             - name: KAFKA_BOOTSTRAP_SERVERS
               value: "kafka-external:9092"
+            - name: GOOGLE_CLIENT_ID
+              value: 60942013677-7e0ccida6basbq1o9bg128oe35c2fdu8.apps.googleusercontent.com
+            - name: OAUTH_REDIRECT_URL
+              value: "https://finvibe.space/oauth/callback"
           ports:
             - containerPort: 8080
