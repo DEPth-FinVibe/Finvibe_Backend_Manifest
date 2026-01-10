@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: user
-          image: cmh1448/finvibe-user:aea972e
+          image: cmh1448/finvibe-user:39e8c9e
           env:
             - name: DB_USERNAME
               valueFrom:
