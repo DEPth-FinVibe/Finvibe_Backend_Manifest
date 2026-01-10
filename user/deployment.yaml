@@ -58,5 +58,7 @@ spec:
               value: 60942013677-7e0ccida6basbq1o9bg128oe35c2fdu8.apps.googleusercontent.com
             - name: OAUTH_REDIRECT_URL
               value: "https://finvibe.space/oauth/callback"
+            - name: OAUTH_BASE_URI
+              value: "https://finvibe.space/api/user"
           ports:
             - containerPort: 8080
