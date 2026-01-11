@@ -46,6 +46,11 @@ spec:
                 secretKeyRef:
                   name: finvibe-jwt-secret
                   key: secret
+            - name: JWT_ISSUER
+              valueFrom:
+                secretKeyRef:
+                  name: finvibe-jwt-secret
+                  key: key
 
             # [일반 설정]
             - name: DB_URL
