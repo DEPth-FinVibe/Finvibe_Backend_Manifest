@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: investment
-          image: 51taek/finvibe-investment:35983fe
+          image: 51taek/finvibe-investment:584b7bc
           env:
             - name: DB_USERNAME
               valueFrom:
