@@ -46,6 +46,11 @@ spec:
                 secretKeyRef:
                   name: finvibe-app-secrets
                   key: naver-client-secret
+            - name: KAKAO_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: finvibe-app-secrets
+                  key: kakao-client-secret
             - name: JWT_SECRET
               valueFrom:
                 secretKeyRef:
@@ -68,6 +73,8 @@ spec:
               value: 60942013677-7e0ccida6basbq1o9bg128oe35c2fdu8.apps.googleusercontent.com
             - name: NAVER_CLIENT_ID
               value: DinALi460NvyjtE78hZi
+            - name: KAKAO_CLIENT_ID
+              value: ab7dc62d9591dbca994c61d6067610fd
             - name: OAUTH_REDIRECT_URL
               value: "https://finvibe.space/oauth/callback"
             - name: OAUTH_BASE_URI
