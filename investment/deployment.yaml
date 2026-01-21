@@ -36,6 +36,26 @@ spec:
                 secretKeyRef:
                   name: finvibe-app-secrets
                   key: mongo-url
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: finvibe-jwt-secret
+                  key: secret
+            - name: KIS_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: finvibe-app-secrets
+                  key: kis-api-key
+            - name: KIS_API_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: finvibe-app-secrets
+                  key: kis-api-secret
+            - name: KIS_USER_ID
+              valueFrom:
+                secretKeyRef:
+                  name: finvibe-app-secrets
+                  key: kis-user-id
 
             # [일반 설정]
             - name: DB_URL
