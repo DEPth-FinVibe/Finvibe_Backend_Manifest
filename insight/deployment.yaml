@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: insight
-  namespace: default
+  namespace: finvibe
 spec:
   replicas: 1
   selector:
