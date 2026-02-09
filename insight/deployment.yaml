@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: insight
-          image: 51taek/finvibe-insight:2b25391
+          image: 51taek/finvibe-insight:399f92e
           env:
             - name: DB_USERNAME
               valueFrom:
