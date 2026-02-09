@@ -56,6 +56,16 @@ spec:
                 secretKeyRef:
                   name: finvibe-app-secrets
                   key: kis-user-id
+            - name: KIS_API_KEY_2
+              valueFrom:
+                secretKeyRef:
+                  name: finvibe-app-secrets
+                  key: kis-api-key-2
+            - name: KIS_API_SECRET_2
+              valueFrom:
+                secretKeyRef:
+                  name: finvibe-app-secrets
+                  key: kis-api-secret-2
 
             # [일반 설정]
             - name: DB_URL
