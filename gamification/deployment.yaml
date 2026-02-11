@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: gamification
-          image: cmh1448/finvibe-gamification:e02b604
+          image: cmh1448/finvibe-gamification:8a0876c
           env:
             - name: DB_USERNAME
               valueFrom:
