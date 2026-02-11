@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: cmh1448/finvibe-fe:c06acf9
+          image: cmh1448/finvibe-fe:1d94041
           ports:
             - containerPort: 80
