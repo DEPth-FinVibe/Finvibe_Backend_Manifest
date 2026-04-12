@@ -45,9 +45,9 @@ spec:
             - name: KAFKA_BOOTSTRAP_SERVERS
               value: "kafka-external:9092"
             - name: FINVIBE_GATEWAY_WEBSOCKET_LISTENER_URL
-              value: "ws://websocket-listener:8080"
+              value: "ws://websocket-listener:80"
             - name: FINVIBE_GATEWAY_WAS_URL
-              value: "http://backend:8080"
+              value: "http://backend:80"
 
           ports:
             - containerPort: 8080
