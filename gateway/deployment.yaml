@@ -48,5 +48,6 @@ spec:
               value: "ws://websocket-listener:8080"
             - name: FINVIBE_GATEWAY_WAS_URL
               value: "http://backend:8080"
+
           ports:
             - containerPort: 8080
