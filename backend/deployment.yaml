@@ -66,6 +66,11 @@ spec:
                 secretKeyRef:
                   name: finvibe-app-secrets
                   key: kis-api-secret2
+            - name: GEMINI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: finvibe-app-secrets
+                  key: gemini-api-key
 
             # [일반 설정]
             - name: DB_URL
