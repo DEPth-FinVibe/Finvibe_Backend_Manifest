@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: websocket-listener
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: websocket-listener
+  template:
+    metadata:
+      labels:
+        app: websocket-listener
+    spec:
+      containers:
+        - name: websocket-listener
+          image: cmh1448/finvibe-websocket-listener:latest
+          env:
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: finvibe-app-secrets
+                  key: redis-password
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: finvibe-jwt-secret
+                  key: secret
+
+            # [일반 설정]
+            - name: REDIS_HOST
+              value: "redis-external"
+            - name: REDIS_PORT
+              value: "6379"
+            - name: JWT_ISSUER
+              value: "finvibe-user"
+          ports:
+            - containerPort: 8080
