@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: gateway
-          image: cmh1448/finvibe-gateway:62ce9cf
+          image: cmh1448/finvibe-gateway:a40953d
           env:
             - name: DB_USERNAME
               valueFrom:
