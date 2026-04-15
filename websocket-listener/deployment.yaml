@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: websocket-listener
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: websocket-listener
@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: websocket-listener
-          image: cmh1448/finvibe-websocket-listener:6e63c1d
+          image: cmh1448/finvibe-websocket-listener:395d5b0
           env:
             - name: REDIS_PASSWORD
               valueFrom:
@@ -36,3 +36,8 @@ spec:
               value: "finvibe-user"
           ports:
             - containerPort: 8080
+          resources:
+            requests:
+              memory: "512Mi"
+            limits:
+              memory: "1Gi"
