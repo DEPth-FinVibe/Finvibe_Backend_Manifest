@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: profit-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: profit-worker
+  template:
+    metadata:
+      labels:
+        app: profit-worker
+    spec:
+      containers:
+        - name: profit-worker
+          image: cmh1448/finvibe-profit-worker:latest
+          env:
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: finvibe-app-secrets
+                  key: redis-password
+
+            # [일반 설정]
+            - name: REDIS_HOST
+              value: "redis-external"
+            - name: REDIS_PORT
+              value: "6379"
+            - name: KAFKA_BOOTSTRAP_SERVERS
+              value: "kafka-external:9092"
+
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "768Mi"
+            limits:
+              cpu: "2"
+              memory: "2Gi"
+          ports:
+            - containerPort: 8080
