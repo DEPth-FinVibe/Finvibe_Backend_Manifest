@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: websocket-listener
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: websocket-listener
@@ -34,6 +34,30 @@ spec:
               value: "6379"
             - name: JWT_ISSUER
               value: "finvibe-user"
+
+            # [성능 튜닝 - fanout/queue 병목 완화]
+            - name: WS_EVENT_DISPATCH_PARALLELISM
+              value: "8"
+            - name: WS_EVENT_DISPATCH_QUEUE_CAPACITY
+              value: "4096"
+            - name: WS_FANOUT_CHUNK_SIZE
+              value: "128"
+            - name: WS_FANOUT_CHUNK_PARALLELISM
+              value: "8"
+            - name: WS_FANOUT_CHUNK_QUEUE_CAPACITY
+              value: "8192"
+            - name: WS_SESSION_QUEUE_CAPACITY
+              value: "4096"
+            - name: WS_SLOW_CONSUMER_GRACE_MS
+              value: "5000"
+
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "768Mi"
+            limits:
+              cpu: "2"
+              memory: "2Gi"
           ports:
             - containerPort: 8080
           resources:
