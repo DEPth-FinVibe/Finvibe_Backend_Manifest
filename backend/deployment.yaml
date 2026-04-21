@@ -77,6 +77,16 @@ spec:
               value: "jdbc:mariadb://mariadb-external:3306/finvibe"
             - name: REDIS_HOST
               value: "redis-external"
+            - name: REDIS_MODE
+              value: "cluster"
+            - name: REDIS_CLUSTER_NODES
+              value: "redis-cluster-0.redis-cluster-headless.finvibe.svc.cluster.local:6379,redis-cluster-1.redis-cluster-headless.finvibe.svc.cluster.local:6379,redis-cluster-2.redis-cluster-headless.finvibe.svc.cluster.local:6379"
+            - name: SPRING_DATA_REDIS_CLUSTER_NODES
+              value: "redis-cluster-0.redis-cluster-headless.finvibe.svc.cluster.local:6379,redis-cluster-1.redis-cluster-headless.finvibe.svc.cluster.local:6379,redis-cluster-2.redis-cluster-headless.finvibe.svc.cluster.local:6379"
+            - name: SPRING_REDIS_CLUSTER_NODES
+              value: "redis-cluster-0.redis-cluster-headless.finvibe.svc.cluster.local:6379,redis-cluster-1.redis-cluster-headless.finvibe.svc.cluster.local:6379,redis-cluster-2.redis-cluster-headless.finvibe.svc.cluster.local:6379"
+            - name: MARKET_REDIS_PUBSUB_CURRENT_PRICE_UPDATED_PARTITION_COUNT
+              value: "3"
             - name: KAFKA_BOOTSTRAP_SERVERS
               value: "kafka-external:9092"
           ports:

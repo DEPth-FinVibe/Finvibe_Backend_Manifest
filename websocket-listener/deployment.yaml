@@ -32,8 +32,20 @@ spec:
               value: "redis-external"
             - name: REDIS_PORT
               value: "6379"
+            - name: REDIS_MODE
+              value: "cluster"
+            - name: REDIS_CLUSTER_NODES
+              value: "redis-cluster-0.redis-cluster-headless.finvibe.svc.cluster.local:6379,redis-cluster-1.redis-cluster-headless.finvibe.svc.cluster.local:6379,redis-cluster-2.redis-cluster-headless.finvibe.svc.cluster.local:6379"
+            - name: SPRING_DATA_REDIS_CLUSTER_NODES
+              value: "redis-cluster-0.redis-cluster-headless.finvibe.svc.cluster.local:6379,redis-cluster-1.redis-cluster-headless.finvibe.svc.cluster.local:6379,redis-cluster-2.redis-cluster-headless.finvibe.svc.cluster.local:6379"
+            - name: SPRING_REDIS_CLUSTER_NODES
+              value: "redis-cluster-0.redis-cluster-headless.finvibe.svc.cluster.local:6379,redis-cluster-1.redis-cluster-headless.finvibe.svc.cluster.local:6379,redis-cluster-2.redis-cluster-headless.finvibe.svc.cluster.local:6379"
             - name: JWT_ISSUER
               value: "finvibe-user"
+            - name: WS_PRICE_TOPIC
+              value: "market:price-updated"
+            - name: WS_PRICE_TOPIC_PARTITION_COUNT
+              value: "3"
 
             # [성능 튜닝 - fanout/queue 병목 완화]
             - name: WS_EVENT_DISPATCH_PARALLELISM
