@@ -46,6 +46,8 @@ spec:
               value: "market:price-updated"
             - name: WS_PRICE_TOPIC_PARTITION_COUNT
               value: "3"
+            - name: WS_PRICE_TOPIC_MODE
+              value: "sharded"
 
             # [성능 튜닝 - fanout/queue 병목 완화]
             - name: WS_EVENT_DISPATCH_PARALLELISM

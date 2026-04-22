@@ -87,6 +87,8 @@ spec:
               value: "redis-cluster-0.redis-cluster-headless.finvibe.svc.cluster.local:6379,redis-cluster-1.redis-cluster-headless.finvibe.svc.cluster.local:6379,redis-cluster-2.redis-cluster-headless.finvibe.svc.cluster.local:6379"
             - name: MARKET_REDIS_PUBSUB_CURRENT_PRICE_UPDATED_PARTITION_COUNT
               value: "3"
+            - name: MARKET_REDIS_PUBSUB_CURRENT_PRICE_UPDATED_MODE
+              value: "sharded"
             - name: KAFKA_BOOTSTRAP_SERVERS
               value: "kafka-external:9092"
           ports:
