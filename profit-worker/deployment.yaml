@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: profit-worker
-          image: cmh1448/finvibe-profit-worker:9c8233d
+          image: cmh1448/finvibe-profit-worker:314ce9a
           env:
             - name: REDIS_PASSWORD
               valueFrom:
