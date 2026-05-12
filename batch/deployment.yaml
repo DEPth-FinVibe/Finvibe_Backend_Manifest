@@ -1,0 +1,92 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-batch
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend-batch
+  template:
+    metadata:
+      labels:
+        app: backend-batch
+    spec:
+      containers:
+        - name: backend-batch
+          image: cmh1448/finvibe-backend-batch:latest
+          env:
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: finvibe-app-secrets
+                  key: db-username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: finvibe-app-secrets
+                  key: db-password
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: finvibe-app-secrets
+                  key: redis-password
+            - name: GEMINI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: finvibe-app-secrets
+                  key: gemini-api-key
+            - name: KIS_USER_ID
+              valueFrom:
+                secretKeyRef:
+                  name: finvibe-app-secrets
+                  key: kis-user-id
+            - name: KIS_API_KEY_1
+              valueFrom:
+                secretKeyRef:
+                  name: finvibe-app-secrets
+                  key: kis-api-key
+            - name: KIS_API_SECRET_1
+              valueFrom:
+                secretKeyRef:
+                  name: finvibe-app-secrets
+                  key: kis-api-secret
+            - name: KIS_API_KEY_2
+              valueFrom:
+                secretKeyRef:
+                  name: finvibe-app-secrets
+                  key: kis-api-key2
+            - name: KIS_API_SECRET_2
+              valueFrom:
+                secretKeyRef:
+                  name: finvibe-app-secrets
+                  key: kis-api-secret2
+
+            # [일반 설정]
+            - name: SPRING_PROFILES_ACTIVE
+              value: "prod"
+            - name: DB_URL
+              value: "jdbc:mariadb://mariadb-external:3306/finvibe"
+            - name: REDIS_HOST
+              value: "redis-external"
+            - name: REDIS_PORT
+              value: "6379"
+            - name: KAFKA_BOOTSTRAP_SERVERS
+              value: "kafka-external:9092"
+            - name: GEMINI_MODEL_NAME
+              value: "gemini-2.5-flash"
+            - name: GEMINI_HIGH_MODEL_NAME
+              value: "gemini-2.5-flash"
+            - name: KIS_BASE_URL
+              value: "https://openapi.koreainvestment.com:9443"
+            - name: KIS_WEBSOCKET_URL
+              value: "ws://ops.koreainvestment.com:21000"
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "768Mi"
+            limits:
+              cpu: "2"
+              memory: "2Gi"
