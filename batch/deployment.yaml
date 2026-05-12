@@ -71,6 +71,14 @@ spec:
               value: "redis-external"
             - name: REDIS_PORT
               value: "6379"
+            - name: REDIS_MODE
+              value: "cluster"
+            - name: REDIS_CLUSTER_NODES
+              value: "redis-cluster-0.redis-cluster-headless.finvibe.svc.cluster.local:6379,redis-cluster-1.redis-cluster-headless.finvibe.svc.cluster.local:6379,redis-cluster-2.redis-cluster-headless.finvibe.svc.cluster.local:6379"
+            - name: SPRING_DATA_REDIS_CLUSTER_NODES
+              value: "redis-cluster-0.redis-cluster-headless.finvibe.svc.cluster.local:6379,redis-cluster-1.redis-cluster-headless.finvibe.svc.cluster.local:6379,redis-cluster-2.redis-cluster-headless.finvibe.svc.cluster.local:6379"
+            - name: SPRING_REDIS_CLUSTER_NODES
+              value: "redis-cluster-0.redis-cluster-headless.finvibe.svc.cluster.local:6379,redis-cluster-1.redis-cluster-headless.finvibe.svc.cluster.local:6379,redis-cluster-2.redis-cluster-headless.finvibe.svc.cluster.local:6379"
             - name: KAFKA_BOOTSTRAP_SERVERS
               value: "kafka-external:9092"
             - name: GEMINI_MODEL_NAME
@@ -85,8 +93,8 @@ spec:
             - containerPort: 8080
           resources:
             requests:
-              cpu: "500m"
-              memory: "768Mi"
+              cpu: "250m"
+              memory: "512Mi"
             limits:
-              cpu: "2"
-              memory: "2Gi"
+              cpu: "1"
+              memory: "1Gi"
