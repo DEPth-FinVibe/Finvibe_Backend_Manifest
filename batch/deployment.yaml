@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: backend-batch
-          image: cmh1448/finvibe-backend-batch:4556ca7
+          image: cmh1448/finvibe-backend-batch:2d4c8d6
           env:
             - name: DB_USERNAME
               valueFrom:
