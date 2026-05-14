@@ -61,6 +61,10 @@ spec:
                 secretKeyRef:
                   name: finvibe-app-secrets
                   key: kis-api-secret2
+            - name: BATCH_MANUAL_TRIGGER_ENABLED
+              value: "true"
+            - name: BATCH_MANUAL_TRIGGER_JOBS
+              value: "valuation-warm-up"
 
             # [일반 설정]
             - name: SPRING_PROFILES_ACTIVE
