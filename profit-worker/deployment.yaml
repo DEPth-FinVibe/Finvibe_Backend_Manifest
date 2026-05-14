@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: profit-worker
-          image: cmh1448/finvibe-profit-worker:6004596
+          image: cmh1448/finvibe-profit-worker:57f15ce
           env:
             - name: DB_USERNAME
               valueFrom:
