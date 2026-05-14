@@ -65,6 +65,8 @@ spec:
               value: "true"
             - name: BATCH_MANUAL_TRIGGER_JOBS
               value: "valuation-warm-up"
+            - name: BATCH_WARM_UP_CHUNK_SIZE
+              value: "200"
 
             # [일반 설정]
             - name: SPRING_PROFILES_ACTIVE
