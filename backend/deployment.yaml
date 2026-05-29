@@ -91,5 +91,7 @@ spec:
               value: "sharded"
             - name: KAFKA_BOOTSTRAP_SERVERS
               value: "kafka-external:9092"
+            - name: SPRING_PROFILES_ACTIVE
+              value: "prod,mock-market"
           ports:
             - containerPort: 8080
