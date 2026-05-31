@@ -12,6 +12,9 @@ spec:
       labels:
         app: profit-worker
     spec:
+      tolerations:
+        - operator: "Exists"
+          effect: "NoSchedule"
       containers:
         - name: profit-worker
           image: cmh1448/finvibe-profit-worker:9decdc8
