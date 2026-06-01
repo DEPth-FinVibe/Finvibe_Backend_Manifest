@@ -52,6 +52,10 @@ spec:
               value: "redis-cluster-0.redis-cluster-headless.finvibe.svc.cluster.local:6379,redis-cluster-1.redis-cluster-headless.finvibe.svc.cluster.local:6379,redis-cluster-2.redis-cluster-headless.finvibe.svc.cluster.local:6379"
             - name: KAFKA_BOOTSTRAP_SERVERS
               value: "kafka-external:9092"
+            - name: APP_PROFIT_RECALCULATION_PARALLELISM
+              value: "32"
+            - name: APP_PROFIT_RECALCULATION_QUEUE_CAPACITY
+              value: "4096"
 
           resources:
             requests:
