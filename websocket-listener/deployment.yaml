@@ -40,6 +40,10 @@ spec:
               value: "redis-cluster-0.redis-cluster-headless.finvibe.svc.cluster.local:6379,redis-cluster-1.redis-cluster-headless.finvibe.svc.cluster.local:6379,redis-cluster-2.redis-cluster-headless.finvibe.svc.cluster.local:6379"
             - name: SPRING_REDIS_CLUSTER_NODES
               value: "redis-cluster-0.redis-cluster-headless.finvibe.svc.cluster.local:6379,redis-cluster-1.redis-cluster-headless.finvibe.svc.cluster.local:6379,redis-cluster-2.redis-cluster-headless.finvibe.svc.cluster.local:6379"
+            - name: SPRING_DATA_REDIS_LETTUCE_CLUSTER_REFRESH_ADAPTIVE
+              value: "true"
+            - name: SPRING_DATA_REDIS_LETTUCE_CLUSTER_REFRESH_PERIOD
+              value: "30s"
             - name: JWT_ISSUER
               value: "finvibe-user"
             - name: WS_PRICE_TOPIC
