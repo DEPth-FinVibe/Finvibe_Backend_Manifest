@@ -17,7 +17,7 @@ spec:
           effect: "NoSchedule"
       containers:
         - name: profit-worker-webflux
-          image: cmh1448/finvibe-profit-worker-webflux:50b9fb0
+          image: cmh1448/finvibe-profit-worker-webflux:fdd4edf
           env:
             - name: REDIS_PASSWORD
               valueFrom:
