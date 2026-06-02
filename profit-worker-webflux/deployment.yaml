@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: profit-worker-webflux
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: profit-worker-webflux
+  template:
+    metadata:
+      labels:
+        app: profit-worker-webflux
+    spec:
+      tolerations:
+        - operator: "Exists"
+          effect: "NoSchedule"
+      containers:
+        - name: profit-worker-webflux
+          image: cmh1448/finvibe-profit-worker-webflux:latest
+          env:
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: finvibe-app-secrets
+                  key: redis-password
+
+            # [일반 설정]
+            - name: SPRING_PROFILES_ACTIVE
+              value: "prod"
+            - name: REDIS_HOST
+              value: "redis-external"
+            - name: REDIS_PORT
+              value: "6379"
+            - name: REDIS_MODE
+              value: "cluster"
+            - name: REDIS_CLUSTER_NODES
+              value: "redis-cluster-0.redis-cluster-headless.finvibe.svc.cluster.local:6379,redis-cluster-1.redis-cluster-headless.finvibe.svc.cluster.local:6379,redis-cluster-2.redis-cluster-headless.finvibe.svc.cluster.local:6379"
+            - name: SPRING_DATA_REDIS_CLUSTER_NODES
+              value: "redis-cluster-0.redis-cluster-headless.finvibe.svc.cluster.local:6379,redis-cluster-1.redis-cluster-headless.finvibe.svc.cluster.local:6379,redis-cluster-2.redis-cluster-headless.finvibe.svc.cluster.local:6379"
+            - name: SPRING_REDIS_CLUSTER_NODES
+              value: "redis-cluster-0.redis-cluster-headless.finvibe.svc.cluster.local:6379,redis-cluster-1.redis-cluster-headless.finvibe.svc.cluster.local:6379,redis-cluster-2.redis-cluster-headless.finvibe.svc.cluster.local:6379"
+            - name: SPRING_DATA_REDIS_LETTUCE_CLUSTER_REFRESH_ADAPTIVE
+              value: "true"
+            - name: SPRING_DATA_REDIS_LETTUCE_CLUSTER_REFRESH_PERIOD
+              value: "30s"
+            - name: KAFKA_BOOTSTRAP_SERVERS
+              value: "kafka-external:9092"
+            - name: WORKER_MONOLITH_BASE_URL
+              value: "http://backend:80"
+
+          resources:
+            requests:
+              cpu: "300m"
+              memory: "768Mi"
+            limits:
+              cpu: "2"
+              memory: "2Gi"
+          ports:
+            - containerPort: 8080
