@@ -46,6 +46,8 @@ spec:
               value: "1"
             - name: KAFKA_CONCURRENCY_PORTFOLIO
               value: "1"
+            - name: KAFKA_GROUP_PROTOCOL
+              value: "consumer"
             - name: KAFKA_MAX_POLL_RECORDS
               value: "100"
             - name: KAFKA_BATCH_MAX_WAIT_MS
