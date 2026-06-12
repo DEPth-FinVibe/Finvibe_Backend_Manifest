@@ -17,7 +17,7 @@ spec:
           effect: "NoSchedule"
       containers:
         - name: profit-worker-golang
-          image: cmh1448/finvibe-profit-worker-golang:e6c5756
+          image: cmh1448/finvibe-profit-worker-golang:d6288fc
           env:
             - name: REDIS_PASSWORD
               valueFrom:
