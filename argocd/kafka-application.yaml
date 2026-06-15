@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: finvibe-kafka
+  namespace: argocd
+spec:
+  project: infra
+  destination:
+    namespace: finvibe
+    server: https://kubernetes.default.svc
+  sources:
+    - repoURL: https://charts.bitnami.com/bitnami
+      chart: kafka
+      targetRevision: 32.4.3
+      helm:
+        releaseName: kafka
+        valueFiles:
+          - $values/kafka/kafka-values-kraft.yaml
+    - repoURL: https://github.com/DEPth-FinVibe/Finvibe_Backend_Manifest
+      targetRevision: HEAD
+      ref: values
+    - repoURL: https://github.com/DEPth-FinVibe/Finvibe_Backend_Manifest
+      targetRevision: HEAD
+      path: kafka/manifests
+  syncPolicy:
+    retry:
+      limit: 2
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+    syncOptions:
+      - CreateNamespace=true
