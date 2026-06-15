@@ -1,0 +1,12 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: infra
+  namespace: argocd
+spec:
+  sourceRepos:
+    - https://github.com/DEPth-FinVibe/Finvibe_Backend_Manifest
+    - https://charts.bitnami.com/bitnami
+  destinations:
+    - server: https://kubernetes.default.svc
+      namespace: finvibe
