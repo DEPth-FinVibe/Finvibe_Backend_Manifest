@@ -17,7 +17,7 @@ spec:
           effect: "NoSchedule"
       containers:
         - name: profit-worker
-          image: cmh1448/finvibe-profit-worker:285b228
+          image: cmh1448/finvibe-profit-worker:a8247b0
           env:
             - name: DB_USERNAME
               valueFrom:
