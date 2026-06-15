@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: finvibe-redis
+  namespace: argocd
+spec:
+  project: finvibe
+  source:
+    repoURL: https://github.com/DEPth-FinVibe/Finvibe_Backend_Manifest
+    targetRevision: HEAD
+    path: redis
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: finvibe
+  syncPolicy:
+    automated:
+      enabled: true
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 2
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+    syncOptions:
+      - CreateNamespace=true

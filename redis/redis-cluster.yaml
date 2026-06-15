@@ -1,0 +1,197 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-cluster-headless
+  namespace: finvibe
+  labels:
+    app: redis-cluster
+spec:
+  clusterIP: None
+  selector:
+    app: redis-cluster
+  ports:
+    - name: redis
+      port: 6379
+      targetPort: 6379
+    - name: bus
+      port: 16379
+      targetPort: 16379
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-cluster
+  namespace: finvibe
+  labels:
+    app: redis-cluster
+spec:
+  selector:
+    app: redis-cluster
+  ports:
+    - name: redis
+      port: 6379
+      targetPort: 6379
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis-cluster
+  namespace: finvibe
+spec:
+  serviceName: redis-cluster-headless
+  replicas: 6
+  podManagementPolicy: Parallel
+  selector:
+    matchLabels:
+      app: redis-cluster
+  template:
+    metadata:
+      labels:
+        app: redis-cluster
+    spec:
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - key: node-role.kubernetes.io/control-plane
+          operator: Exists
+          effect: NoSchedule
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app: redis-cluster
+                topologyKey: kubernetes.io/hostname
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app: redis-cluster
+      containers:
+        - name: redis
+          image: redis:7.2
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: finvibe-app-secrets
+                  key: redis-password
+          command:
+            - sh
+            - -c
+            - |
+              exec redis-server \
+                --port 6379 \
+                --bind 0.0.0.0 \
+                --appendonly yes \
+                --appendfsync everysec \
+                --no-appendfsync-on-rewrite yes \
+                --auto-aof-rewrite-percentage 200 \
+                --auto-aof-rewrite-min-size 268435456 \
+                --save 300 1 \
+                --protected-mode no \
+                --requirepass "$REDIS_PASSWORD" \
+                --masterauth "$REDIS_PASSWORD" \
+                --cluster-enabled yes \
+                --cluster-config-file /data/nodes.conf \
+                --cluster-node-timeout 5000 \
+                --cluster-announce-hostname "$POD_NAME.redis-cluster-headless.finvibe.svc.cluster.local" \
+                --cluster-preferred-endpoint-type hostname \
+                --cluster-announce-port 6379 \
+                --cluster-announce-bus-port 16379
+          ports:
+            - containerPort: 6379
+              name: redis
+            - containerPort: 16379
+              name: bus
+          readinessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - redis-cli -a "$REDIS_PASSWORD" ping
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 5
+            failureThreshold: 3
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - redis-cli -a "$REDIS_PASSWORD" ping
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: 200m
+              memory: 256Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi
+          volumeMounts:
+            - name: redis-data
+              mountPath: /data
+  volumeClaimTemplates:
+    - metadata:
+        name: redis-data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 8Gi
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: redis-cluster-init
+  namespace: finvibe
+spec:
+  backoffLimit: 3
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: init
+          image: redis:7.2
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: finvibe-app-secrets
+                  key: redis-password
+          command:
+            - sh
+            - -c
+            - |
+              set -e
+              NODES="redis-cluster-0.redis-cluster-headless.finvibe.svc.cluster.local:6379 redis-cluster-1.redis-cluster-headless.finvibe.svc.cluster.local:6379 redis-cluster-2.redis-cluster-headless.finvibe.svc.cluster.local:6379 redis-cluster-3.redis-cluster-headless.finvibe.svc.cluster.local:6379 redis-cluster-4.redis-cluster-headless.finvibe.svc.cluster.local:6379 redis-cluster-5.redis-cluster-headless.finvibe.svc.cluster.local:6379"
+
+              for node in $NODES; do
+                host=$(echo "$node" | cut -d: -f1)
+                until redis-cli -h "$host" -p 6379 -a "$REDIS_PASSWORD" ping >/dev/null 2>&1; do
+                  echo "Waiting for $host..."
+                  sleep 2
+                done
+              done
+
+              if redis-cli -h redis-cluster-0.redis-cluster-headless.finvibe.svc.cluster.local -p 6379 -a "$REDIS_PASSWORD" cluster info | grep -q "cluster_state:ok"; then
+                echo "Redis cluster already initialized"
+                exit 0
+              fi
+
+              yes yes | redis-cli --cluster create $NODES --cluster-replicas 1 -a "$REDIS_PASSWORD"
+
+              redis-cli -h redis-cluster-0.redis-cluster-headless.finvibe.svc.cluster.local -p 6379 -a "$REDIS_PASSWORD" cluster info
