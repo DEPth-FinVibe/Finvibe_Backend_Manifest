@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: cmh1448/finvibe-monolith:bdccc60
+          image: cmh1448/finvibe-monolith:fe2a7fa
           env:
             - name: DB_USERNAME
               valueFrom:
