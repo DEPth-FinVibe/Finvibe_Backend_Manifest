@@ -94,13 +94,16 @@ spec:
               value: "3"
             - name: MARKET_REDIS_PUBSUB_CURRENT_PRICE_UPDATED_MODE
               value: "sharded"
-            # 테스트 시세 프로바이더. 되돌릴 때는 아래 5개 항목을 지우면 기본값(kis)으로 돌아간다.
+            # 테스트 시세 프로바이더(부하 시험 #17). 되돌릴 때는 이 블록을 지우면 기본값(kis)으로 돌아간다.
+            # 증량 스케줄: 단계별 초당 목표 건수를 5분씩. 긴급 제어: redis-cli SET market:mock:control stop|hold|<숫자>
             - name: MARKET_PROVIDER
               value: "mock"
             - name: MARKET_MOCK_EMITINTERVALMS
-              value: "1000"
-            - name: MARKET_MOCK_STOCKSPERTICK
-              value: "100"
+              value: "200"
+            - name: MARKET_MOCK_RAMPSTEPS
+              value: "100,250,500,1000,2500,5000,10000,20000,37000"
+            - name: MARKET_MOCK_RAMPSTEPSECONDS
+              value: "300"
             - name: MARKET_MOCK_PUBLISHTHREADS
               value: "4"
             - name: MARKET_MOCK_PUBLISHQUEUECAPACITY
