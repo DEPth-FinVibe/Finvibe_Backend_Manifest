@@ -94,6 +94,17 @@ spec:
               value: "3"
             - name: MARKET_REDIS_PUBSUB_CURRENT_PRICE_UPDATED_MODE
               value: "sharded"
+            # 테스트 시세 프로바이더. 되돌릴 때는 아래 5개 항목을 지우면 기본값(kis)으로 돌아간다.
+            - name: MARKET_PROVIDER
+              value: "mock"
+            - name: MARKET_MOCK_EMITINTERVALMS
+              value: "1000"
+            - name: MARKET_MOCK_STOCKSPERTICK
+              value: "100"
+            - name: MARKET_MOCK_PUBLISHTHREADS
+              value: "4"
+            - name: MARKET_MOCK_PUBLISHQUEUECAPACITY
+              value: "64"
             - name: KAFKA_BOOTSTRAP_SERVERS
               value: "kafka-external:9092"
             - name: SPRING_PROFILES_ACTIVE
