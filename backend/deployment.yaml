@@ -105,7 +105,8 @@ spec:
               path: /actuator/health/liveness
               port: 8080
             periodSeconds: 5
-            failureThreshold: 60
+            # 기동이 약 290초 걸려 5분 한도에 걸린다. 롤링 중 노드 CPU 경합까지 감안해 10분을 허용한다.
+            failureThreshold: 120
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
