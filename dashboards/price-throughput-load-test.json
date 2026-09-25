@@ -578,7 +578,7 @@
     },
     {
       "type": "timeseries",
-      "title": "워커가 본 Redis 명령 지연 p99 (중단 기준 50ms)",
+      "title": "Redis 서버 명령 지연 p99 (중단 기준 50ms)",
       "id": 14,
       "datasource": {
         "type": "prometheus",
@@ -593,7 +593,7 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "s",
+          "unit": "µs",
           "custom": {
             "lineWidth": 2,
             "fillOpacity": 0,
@@ -616,8 +616,26 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.99, sum by (le, command) (rate(profit_worker_redis_command_duration_seconds_bucket[1m])))",
-          "legendFormat": "{{command}}",
+          "expr": "histogram_quantile(0.99, sum by (le) (rate(redis_commands_latencies_usec_bucket{cmd!~\"latency.*|info|config.*|cluster.*|client.*|slowlog.*|ping|command.*|memory.*\"}[1m])))",
+          "legendFormat": "전체 p99",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        },
+        {
+          "refId": "B",
+          "expr": "topk(5, histogram_quantile(0.99, sum by (le, cmd) (rate(redis_commands_latencies_usec_bucket{cmd!~\"latency.*|info|config.*|cluster.*|client.*|slowlog.*|ping|command.*|memory.*\"}[1m]))))",
+          "legendFormat": "{{cmd}} p99",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        },
+        {
+          "refId": "C",
+          "expr": "histogram_quantile(0.99, sum by (le) (rate(profit_worker_redis_command_duration_seconds_bucket[1m]))) * 1e6",
+          "legendFormat": "참고: 워커 파이프라인 1회 p99",
           "datasource": {
             "type": "prometheus",
             "uid": "prometheus"
