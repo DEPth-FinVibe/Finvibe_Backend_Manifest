@@ -115,8 +115,7 @@ spec:
               value: "false"
             # 메모리 1Gi에서 JVM이 Serial GC·힙 25%(260MB)를 골라, 초당 1만 건에서 전체 GC가 최대 0.8초 멈췄다(#17 D21).
             - name: JAVA_TOOL_OPTIONS
-              # 레인 대기 원인 프로파일링(#17 D22): 기동 14분 뒤부터 5분 기록. 분석 후 JFR 부분은 제거한다.
-              value: "-XX:+UseG1GC -XX:MaxRAMPercentage=75 -XX:StartFlightRecording=delay=14m,duration=5m,settings=profile,filename=/tmp/lane.jfr"
+              value: "-XX:+UseG1GC -XX:MaxRAMPercentage=75"
             - name: KAFKA_BOOTSTRAP_SERVERS
               value: "kafka-external:9092"
             - name: SPRING_PROFILES_ACTIVE
