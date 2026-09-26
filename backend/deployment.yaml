@@ -113,6 +113,9 @@ spec:
             # 현재가 경로만 측정(#17 D10): 수익률 워커로 가는 시세 Kafka 발행을 끈다. 수익률 시험 때 true로 되돌린다.
             - name: MARKET_PRICEEVENTS_KAFKAENABLED
               value: "false"
+            # 메모리 1Gi에서 JVM이 Serial GC·힙 25%(260MB)를 골라, 초당 1만 건에서 전체 GC가 최대 0.8초 멈췄다(#17 D21).
+            - name: JAVA_TOOL_OPTIONS
+              value: "-XX:+UseG1GC -XX:MaxRAMPercentage=75"
             - name: KAFKA_BOOTSTRAP_SERVERS
               value: "kafka-external:9092"
             - name: SPRING_PROFILES_ACTIVE
@@ -121,10 +124,10 @@ spec:
           resources:
             requests:
               cpu: "1"
-              memory: "512Mi"
+              memory: "1536Mi"
             limits:
               cpu: "2"
-              memory: "1Gi"
+              memory: "1536Mi"
           ports:
             - containerPort: 8080
           startupProbe:
