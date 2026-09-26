@@ -6,9 +6,11 @@ spec:
   replicas: 1
   strategy:
     type: RollingUpdate
+    # 모놀리식은 CPU 요청 1이라 롤링 중 두 파드가 함께 뜰 자리가 없다(다른 노드는 taint).
+    # 이전 파드를 먼저 내리고 새 파드를 올린다. KIS 자격증명 쟁탈도 함께 피한다(#17).
     rollingUpdate:
-      maxUnavailable: 0
-      maxSurge: 1
+      maxUnavailable: 1
+      maxSurge: 0
   selector:
     matchLabels:
       app: backend
