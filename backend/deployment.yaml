@@ -108,6 +108,9 @@ spec:
               value: "4"
             - name: MARKET_MOCK_PUBLISHQUEUECAPACITY
               value: "64"
+            # 현재가 경로만 측정(#17 D10): 수익률 워커로 가는 시세 Kafka 발행을 끈다. 수익률 시험 때 true로 되돌린다.
+            - name: MARKET_PRICEEVENTS_KAFKAENABLED
+              value: "false"
             - name: KAFKA_BOOTSTRAP_SERVERS
               value: "kafka-external:9092"
             - name: SPRING_PROFILES_ACTIVE
