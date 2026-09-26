@@ -111,13 +111,18 @@ spec:
             # 현재가 경로만 측정(#17 D10): 수익률 워커로 가는 시세 Kafka 발행을 끈다. 수익률 시험 때 true로 되돌린다.
             - name: MARKET_PRICEEVENTS_KAFKAENABLED
               value: "false"
-            # 틱당 CPU 프로파일링(#17 D13): 기동 5분 후부터 5분간 JFR 기록. 분석 후 제거한다.
-            - name: JAVA_TOOL_OPTIONS
-              value: "-XX:StartFlightRecording=delay=5m,duration=5m,settings=profile,filename=/tmp/tick.jfr"
             - name: KAFKA_BOOTSTRAP_SERVERS
               value: "kafka-external:9092"
             - name: SPRING_PROFILES_ACTIVE
               value: "prod"
+          # 현재가 경로가 CPU 한도(0.7)에 막혀 늘린다(#17). 메모리는 기존 클러스터 값 그대로.
+          resources:
+            requests:
+              cpu: "1"
+              memory: "512Mi"
+            limits:
+              cpu: "2"
+              memory: "1Gi"
           ports:
             - containerPort: 8080
           startupProbe:
