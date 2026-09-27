@@ -132,9 +132,11 @@ spec:
             periodSeconds: 10
             timeoutSeconds: 5
             failureThreshold: 3
+          # CPU 요청은 경합 시 CPU를 나눠 받는 가중치다. 200m에서는 리스너·모놀리스와 경합할 때 밀려
+          # 단순 SET도 10~26ms 걸렸다(#17 D26). 노드 요청 여유(vmi3244740 0.74코어) 안에서 400m으로 올린다.
           resources:
             requests:
-              cpu: 200m
+              cpu: 400m
               memory: 256Mi
             limits:
               cpu: "1"
