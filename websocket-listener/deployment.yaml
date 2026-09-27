@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: websocket-listener
-          image: cmh1448/finvibe-websocket-listener:61b7803
+          image: cmh1448/finvibe-websocket-listener:8852572
           env:
             - name: REDIS_PASSWORD
               valueFrom:
