@@ -68,6 +68,10 @@ spec:
               value: "4096"
             - name: WS_SLOW_CONSUMER_GRACE_MS
               value: "5000"
+            # 틱을 버리지 않는 대신, 세션에 쌓인 틱이 한도를 넘으면 연결을 끊는다(#17 D19·D24).
+            # 파드당 세션 약 330개 × 2,000건(약 0.5MB)이면 최악에도 힙 안에 든다.
+            - name: WS_SESSION_DATA_BACKLOG_LIMIT
+              value: "2000"
 
           resources:
             requests:
